@@ -1,11 +1,13 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-import authRoutes from './routes/auth.routes';
 import { connectDB } from './lib/database.lib';
 import redisClient from './lib/redis.lib';
+
+import authRoutes from './routes/auth.routes';
+import todosRoutes from './routes/todos.routes';
 
 dotenv.config();
 
@@ -19,7 +21,17 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+
+  if (req.headers['api-key'] && req.headers['api-key'] === process.env.API_KEY) {
+    return next();
+  }
+
+  return res.status(401).json({ content: 'Unauthorized' });
+});
+
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/todos', todosRoutes);
 
 const PORT = process.env.PORT || 8080
 

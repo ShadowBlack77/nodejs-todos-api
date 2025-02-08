@@ -14,7 +14,11 @@ const todoSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
-      unique: true
+    },
+    isCompleted: {
+      type: Boolean,
+      default: false,
+      required: true
     }
   },
   {
