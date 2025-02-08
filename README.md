@@ -1,1 +1,4 @@
-# nodejs-todos-api
+- npm i -D typescript @types/node
+- npx tsc -init
+- npm i -D @tsconfig/node23
+- npm i -D ts-node
