@@ -1,0 +1,34 @@
+<form [formGroup]="updateTodo" (submit)="onSubmit()" class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+  <div class="mb-4">
+    <label for="title" class="block text-gray-700 text-sm font-medium mb-2">Title</label>
+    <input 
+      type="text"
+      id="title"
+      name="title"
+      formControlName="title"
+      autocomplete="off"
+      class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+  </div>
+
+  <div class="mb-4">
+    <label for="content" class="block text-gray-700 text-sm font-medium mb-2">Content</label>
+    <textarea 
+      name="content" 
+      id="content"
+      formControlName="content"
+      autocomplete="off"
+      rows="4"
+      class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+    ></textarea>
+  </div>
+
+  <div class="text-center">
+    <button 
+      type="submit"
+      class="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700 transition duration-200"
+    >
+      Save
+    </button>
+  </div>
+</form>

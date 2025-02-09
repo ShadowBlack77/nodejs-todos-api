@@ -1,0 +1,17 @@
+@if (!user) {
+  <li>
+    <a routerLink="/auth/sign-in" class="text-white">Sign In</a>
+  </li>
+} @else {
+  <ul class="flex">
+    <li>
+      <a routerLink="/dashboard" class="text-white me-2">Dashboard</a>
+    </li>
+    <li>
+      <button (click)="singOut()" class="text-white me-2">Sign Out</button>
+    </li>
+    <li>
+      <p class="text-white">| Hello {{ user.username }}!</p>
+    </li>
+  </ul>
+}

@@ -3,16 +3,20 @@ import { ContentComponent, DashboardComponent, HomeComponent, SignInComponent, S
 import { AllTodosComponent } from './pages/all-todos/all-todos.component';
 import { CreateTodoComponent } from './pages/create-todo/create-todo.component';
 import { UpdateTodoComponent } from './pages/update-todo/update-todo.component';
+import { authGuard, protectGuard, userResolver } from './core';
+import { todosResolver } from './features';
 
 export const routes: Routes = [
-  { path: '', component: ContentComponent, children: [
+  { path: '', resolve: [userResolver], component: ContentComponent, children: [
     { path: '', component: HomeComponent },
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'todos', component: AllTodosComponent },
-    { path: 'create-todo', component: CreateTodoComponent },
-    { path: 'update-todo', component: UpdateTodoComponent }
+    { path: 'dashboard', canActivate: [protectGuard], resolve: [todosResolver], children: [
+      { path: '', component: DashboardComponent },
+      { path: 'todos', component: AllTodosComponent },
+      { path: 'create-todo', component: CreateTodoComponent },
+      { path: 'update-todo/:id', component: UpdateTodoComponent }
+    ]}
   ]},
-  { path: 'auth', children: [
+  { path: 'auth', canActivate: [authGuard], children: [
     { path: 'sign-in', component: SignInComponent },
     { path: 'sign-up', component: SignUpComponent }
   ]}

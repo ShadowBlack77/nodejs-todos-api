@@ -1,1 +1,15 @@
-<p>header works!</p>
+<header class="bg-black flex py-2 items-center justify-around">
+  <div>
+    <a routerLink="/" class="text-white text-lg">
+      <h1>NodeJS-Todos</h1>
+    </a>
+  </div>
+  <nav>
+    <ul class="list-none flex">
+      <li>
+        <a routerLink="/" class="text-white me-2">Home</a>
+      </li>
+      <ng-content />
+    </ul>
+  </nav>
+</header>

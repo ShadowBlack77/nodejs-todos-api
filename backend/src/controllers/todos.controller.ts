@@ -49,8 +49,6 @@ export class TodosController {
 
       const todo = await Todo.find({ userId: user._id, _id: todoId });
 
-      console.log(todo);
-
       if (todo.length <= 0) {
         return res.status(404).json({ content: 'todos not found' });
       }

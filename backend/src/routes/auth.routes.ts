@@ -12,5 +12,6 @@ authRouter.post('/sign-in', authController.signIn.bind(authController));
 authRouter.post('/sign-out', authMiddleware.protectedRoute, authController.singOut.bind(authController));
 authRouter.post('/refresh-token', authController.refreshToken.bind(authController));
 authRouter.get('/profile', authMiddleware.protectedRoute, authController.getProfile.bind(authController));
+authRouter.get('/check-validity', authMiddleware.protectedRoute, authController.checkValidity.bind(authController));
 
 export default authRouter;

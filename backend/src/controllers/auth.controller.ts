@@ -104,7 +104,17 @@ export class AuthController {
 
   public async getProfile(req: Request | any, res: Response): Promise<any> {
     try {
-      return res.status(200).json({ user: req.user });
+      const user = req.user;
+
+      return res.status(200).json({ user });
+    } catch (error: any) {
+      res.status(500).json({ content: error.message });
+    }
+  }
+
+  public async checkValidity(req: Request, res: Response): Promise<any> {
+    try {
+      return res.status(200).json({ content: true });
     } catch (error: any) {
       res.status(500).json({ content: error.message });
     }

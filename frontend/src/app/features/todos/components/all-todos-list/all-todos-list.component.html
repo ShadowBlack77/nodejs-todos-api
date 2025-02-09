@@ -1,0 +1,23 @@
+<div class="p-2 flex">
+  @if (todos.length > 0) {
+    @for (todo of todos; track $index) {
+      <div class="p-4 border w-[300px] mx-2">
+        <h3>Title: {{ todo.title }}</h3>
+        <p>Content: {{ todo.content }}</p>
+        <p>
+          <i>Created At: {{ parseDate(todo.createdAt) }}</i>
+        </p>
+        <p>
+          Completed: {{ todo.isCompleted }}
+        </p>
+        <div class="flex justify-between">
+          <button (click)="complete(todo._id, todo)" class="px-2 py-1 border cursor-pointer rounded-md hover:bg-black hover:text-white">Completed</button>
+          <button [routerLink]="['/dashboard/update-todo/', todo._id]" class="px-2 py-1 border cursor-pointer rounded-md hover:bg-black hover:text-white">Update</button>
+          <button (click)="delete(todo._id)" class="px-2 py-1 border cursor-pointer rounded-md hover:bg-black hover:text-white">Delete</button>
+        </div>
+      </div>
+    }
+  } @else {
+    <p>No todos founded</p>
+  }
+</div>
