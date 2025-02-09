@@ -6,8 +6,8 @@ import cookieParser from 'cookie-parser';
 import { connectDB } from './lib/database.lib';
 import redisClient from './lib/redis.lib';
 
-import authRoutes from './routes/auth.routes';
-import todosRoutes from './routes/todos.routes';
+import authRouter from './routes/auth.routes';
+import todosRouter from './routes/todos.routes';
 
 dotenv.config();
 
@@ -27,11 +27,11 @@ app.use(async (req: Request, res: Response, next: NextFunction): Promise<any> =>
     return next();
   }
 
-  return res.status(401).json({ content: 'Unauthorized' });
+  return res.status(401).json({ content: 'Access Denied' });
 });
 
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/todos', todosRoutes);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/todos', todosRouter);
 
 const PORT = process.env.PORT || 8080
 
