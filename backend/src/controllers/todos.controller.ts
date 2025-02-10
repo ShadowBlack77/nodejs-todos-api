@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Todo from '../models/todo.model';
+import redisClient from '../lib/redis.lib';
 
 export class TodosController {
 
@@ -7,7 +8,15 @@ export class TodosController {
     try {
       const user = req.user;
       
+      const cachedTodos = await redisClient.get(`${user._id}_todos`);
+
+      if (cachedTodos) {
+        return res.status(200).json({ todos: JSON.parse(cachedTodos) });
+      }
+
       const todos = await Todo.find({ userId: user._id });
+
+      await this.saveInCache(`${user._id}_todos`, JSON.stringify(todos));
 
       return res.status(200).json({ todos });
     } catch (error: any) {
@@ -55,6 +64,9 @@ export class TodosController {
 
       await Todo.updateOne({ userId: user._id, _id: todoId }, { title, content, isCompleted });
 
+      const todos = await Todo.find({ userId: user._id });
+      await this.saveInCache(`${user._id}_todos`, JSON.stringify(todos));
+
       return res.status(201).json({ content: 'updated' });
     } catch (error) {
       
@@ -68,9 +80,16 @@ export class TodosController {
 
       await Todo.deleteOne({ userId: user._id, _id: todoId });
 
+      const todos = await Todo.find({ userId: user._id });
+      await this.saveInCache(`${user._id}_todos`, JSON.stringify(todos));
+
       return res.status(201).json({ content: 'deleted' });
     } catch (error: any) {
       return res.status(500).json({ content: error.message });
     }
+  }
+
+  private async saveInCache(key: string, data: string) {
+    redisClient.set(key, data);
   }
 }
